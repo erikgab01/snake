@@ -72,6 +72,7 @@ function startGameInterval(roomName) {
         else {
             io.to(roomName).emit('gameOver', JSON.stringify({ winner }));
             state[roomName] = null;
+            deleteRoom(roomName);
             clearInterval(interval);
         }
     }, 1000 / FRAMERATE)
@@ -87,4 +88,12 @@ function makeID(length) {
     return result;
 }
 
-io.listen(3000);
+function deleteRoom(val) {
+    for (var key in clientRooms) {
+        if (clientRooms[key] == val) delete clientRooms[key];
+    }
+}
+
+const PORT = process.env.PORT || 3000
+
+io.listen(PORT);
