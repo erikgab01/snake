@@ -10,7 +10,7 @@ function createGameState() {
     return {
         players: [{
             pos: {
-                x: 3,
+                x: 2,
                 y: 10,
             },
             dir: {
@@ -18,13 +18,13 @@ function createGameState() {
                 y: 0,
             },
             snake: [
+                { x: 0, y: 10 },
                 { x: 1, y: 10 },
                 { x: 2, y: 10 },
-                { x: 3, y: 10 },
             ],
         }, {
             pos: {
-                x: 18,
+                x: 17,
                 y: 5,
             },
             dir: {
@@ -32,9 +32,9 @@ function createGameState() {
                 y: 0,
             },
             snake: [
-                { x: 20, y: 5 },
                 { x: 19, y: 5 },
                 { x: 18, y: 5 },
+                { x: 17, y: 5 },
             ],
         }],
         food: {},
@@ -55,11 +55,11 @@ function gameLoop(state) {
     playerTwo.pos.x += playerTwo.dir.x;
     playerTwo.pos.y += playerTwo.dir.y;
 
-    if (playerOne.pos.x < 0 || playerOne.pos.x > GRIDSIZE || playerOne.pos.y < 0 || playerOne.pos.y > GRIDSIZE) {
+    if (playerOne.pos.x < 0 || playerOne.pos.x > GRIDSIZE - 1 || playerOne.pos.y < 0 || playerOne.pos.y > GRIDSIZE - 1) {
         return 2;
     }
 
-    if (playerTwo.pos.x < 0 || playerTwo.pos.x > GRIDSIZE || playerTwo.pos.y < 0 || playerTwo.pos.y > GRIDSIZE) {
+    if (playerTwo.pos.x < 0 || playerTwo.pos.x > GRIDSIZE - 1 || playerTwo.pos.y < 0 || playerTwo.pos.y > GRIDSIZE - 1) {
         return 1;
     }
 

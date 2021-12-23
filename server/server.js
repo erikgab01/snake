@@ -46,8 +46,10 @@ io.on('connection', (client) => {
         client.number = 2;
         client.emit('init', 2);
         client.emit('gameCode', gameCode);
-
-        startGameInterval(gameCode);
+        io.to(gameCode).emit('startCountdown', 5);
+        setTimeout(() => {
+            startGameInterval(gameCode);
+        }, 6000);
     })
 
     client.on('keydown', (keyCode) => {
@@ -75,7 +77,7 @@ function startGameInterval(roomName) {
             deleteRoom(roomName);
             clearInterval(interval);
         }
-    }, 1000 / FRAMERATE)
+    }, 1000 / FRAMERATE);
 }
 
 function makeID(length) {

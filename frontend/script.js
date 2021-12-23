@@ -11,6 +11,7 @@ const newGameBtn = document.getElementById('newGameButton');
 const joinGameBtn = document.getElementById('joinGameButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const gameCodeDisplay = document.getElementById('gameCodeDisplay');
+const countdown = document.getElementById('countdown');
 
 let canvas, ctx;
 let playerNumber;
@@ -70,6 +71,17 @@ socket.on('tooManyPlayers', () => {
     alert('This game is already in progress')
 })
 
+socket.on('startCountdown', (count) => {
+    countdown.style.display = 'block'
+    const interval = setInterval(() => {
+        countdown.innerText = `Your game will start in ${count}`;
+        count--;
+        if (count < 0) {
+            clearInterval(interval);
+        }
+    }, 1000);
+})
+
 function init() {
     initialScreen.style.display = 'none';
     gameScreen.style.display = 'block';
@@ -91,6 +103,7 @@ function keydown(event) {
 }
 
 function paintGame(state) {
+    console.log('print');
     ctx.fillStyle = BG_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
