@@ -55,6 +55,7 @@ function gameLoop(state) {
     playerTwo.pos.x += playerTwo.dir.x;
     playerTwo.pos.y += playerTwo.dir.y;
 
+    // boundary check
     if (playerOne.pos.x < 0 || playerOne.pos.x > GRIDSIZE - 1 || playerOne.pos.y < 0 || playerOne.pos.y > GRIDSIZE - 1) {
         return 2;
     }
@@ -63,6 +64,7 @@ function gameLoop(state) {
         return 1;
     }
 
+    // food check
     if (state.food.x === playerOne.pos.x && state.food.y === playerOne.pos.y) {
         playerOne.snake.push({ ...playerOne.pos });
         playerOne.pos.x += playerOne.dir.x;
@@ -78,18 +80,33 @@ function gameLoop(state) {
     }
 
     if (playerOne.dir.x || playerOne.dir.y) {
+        // collision with snake
         for (let cell of playerOne.snake) {
             if (cell.x === playerOne.pos.x && cell.y === playerOne.pos.y) {
                 return 2;
             }
         }
+        // collision with other player snake
+        for (let cell of playerTwo.snake) {
+            if (cell.x === playerOne.pos.x && cell.y === playerOne.pos.y) {
+                return 2;
+            }
+        }
+    
 
         playerOne.snake.push({ ...playerOne.pos });
         playerOne.snake.shift();
     }
 
     if (playerTwo.dir.x || playerTwo.dir.y) {
+        // collision with your own snake
         for (let cell of playerTwo.snake) {
+            if (cell.x === playerTwo.pos.x && cell.y === playerTwo.pos.y) {
+                return 1;
+            }
+        }
+        // collision with other player snake
+        for (let cell of playerOne.snake) {
             if (cell.x === playerTwo.pos.x && cell.y === playerTwo.pos.y) {
                 return 1;
             }
